@@ -54,7 +54,7 @@ Vagrant.configure("2") do |config|
         "--medium", "emptydrive"]  
         config.vm.provision "shell", inline: $node_setup, privileged: true
         config.vm.provision "shell", inline: $tool_setup, privileged: true        
-
+        config.vm.synced_folder ".", "/vagrant", type: "smb"
       end
   end
 end
