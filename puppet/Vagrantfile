@@ -1,0 +1,23 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+$node_setup = <<-SCRIPT
+echo "hello"
+SCRIPT
+
+Vagrant.configure("2") do |config|
+    config.vm.box = "generic/centos7"
+    config.vm.box_version = "4.0.2"
+
+    config.vm.define "master" do |master|
+      master.vm.hostname = "puppet-master"
+      master.vm.network "private_network", ip: "192.168.33.10"
+      master.vm.provision "shell", inline: $node_setup, privileged: true
+    end
+  
+    config.vm.define "agent" do |agent|
+      agent.vm.hostname = "pupppet-agent"
+      agent.vm.network "private_network", ip: "192.168.33.20"
+      agent.vm.provision "shell", inline: $node_setup, privileged: true
+    end
+end
